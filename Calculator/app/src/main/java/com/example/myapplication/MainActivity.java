@@ -2,8 +2,11 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +17,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //输入框
     private EditText editText;
+
+    private GestureDetector detector;
+    private MyGestureListener listener;
 
     //数字0-9
     private Button zero;
@@ -52,6 +58,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //输入框
         editText = (EditText) findViewById(R.id.editText);
+
+        listener=new MyGestureListener();
+        detector=new GestureDetector(this,listener);
 
         //0-9
         zero = (Button) findViewById(R.id.zero);
@@ -107,6 +116,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dot.setOnClickListener(this);
     }
 
+    public boolean onTouchEvent(MotionEvent event){
+        return detector.onTouchEvent(event);
+    }
+
     //判断EditText中内容是否为空
     public boolean isEditTextEmpty(String input){
         return input.equals("");
@@ -120,6 +133,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else{
             return false;
         }
+    }
+
+    //判断是否包含小数点
+    public boolean isDot(String input){
+        char[] charArray=input.toCharArray();
+        int index=0;
+
+        for (int i = 0; i < charArray.length; i++) {
+            if(charArray[i]=='.') {
+                index++;
+            }
+            if(charArray[i]=='+'||charArray[i]=='-'||charArray[i]=='*'||charArray[i]=='/'){
+                index=0;
+            }
+        }
+
+        if(index!=0)
+            return true;
+        else
+            return false;
+    }
+
+    //判断EditText最后一位是否是运算符
+    public boolean isOperator(String input){
+        char lastIndex=input.charAt(input.length()-1);
+
+        if(lastIndex=='+'||lastIndex=='-'||lastIndex=='*'||lastIndex=='/'){
+            return true;
+        }else {
+            return false;
+        }
+
     }
 
     //后退一格
@@ -150,10 +195,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.dot:
+                if(!isEditTextEmpty(input)&&(isOperator(input))){
+                    input=back(input);
+                }
+                if(!isEditTextEmpty(input)&&isNumber(input)&&!isDot(input)){
+                    editText.setText(input+((Button)view).getText());
+                }
+                break;
+
             case R.id.add:
             case R.id.sub:
             case R.id.mul:
             case R.id.div:
+                if(!isEditTextEmpty(input)&&(isDot(input)||isOperator(input))){
+                    input=back(input);
+                }
                 if(!isEditTextEmpty(input)&&isNumber(input)){
                     editText.setText(input+((Button)view).getText());
                 }
@@ -174,6 +230,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.clear:
                 editText.setText("");
                 break;
+        }
+    }
+
+    public class MyGestureListener extends GestureDetector.SimpleOnGestureListener{
+        public boolean onFling(MotionEvent e1,MotionEvent e2,float v1,float v2){
+            if(e1.getX()-e2.getX()>0){
+                startActivity(new Intent(MainActivity.this,ScientificCalculateActivity.class));
+                Toast.makeText(MainActivity.this,"通过手势启动ScientificCalculateActivity",Toast.LENGTH_LONG).show();
+                return true;
+            }else{
+                return false;
+            }
         }
     }
 }
