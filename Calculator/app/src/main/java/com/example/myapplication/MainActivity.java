@@ -1,13 +1,19 @@
 package com.example.myapplication;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.Editable;
+import android.view.ContextMenu;
 import android.view.GestureDetector;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -48,16 +54,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //是否进行过运算
     private boolean isCalculated=false;
 
+    //是否存在left_bracket
+    private boolean isExistLeftBracket=false;
+
+    //left_bracket的数量
+    private int countOnLeftBracket=0;
+
     //小数点
     private Button dot;
+
+    //左括号、右括号
+    private Button left_bracket;
+    private Button right_bracket;
+
+    private Button help;
+
+    public void onConfigurationChanged(Configuration configuration){
+        super.onConfigurationChanged(configuration);
+        if(configuration.orientation==Configuration.ORIENTATION_LANDSCAPE){
+            setContentView(R.layout.landscape_layout);
+        }else{
+            setContentView(R.layout.activity_main);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
         //输入框
         editText = (EditText) findViewById(R.id.editText);
+        editText.setEnabled(false);
 
         listener=new MyGestureListener();
         detector=new GestureDetector(this,listener);
@@ -89,6 +119,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         clear = (Button) findViewById(R.id.clear);
         back = (Button) findViewById(R.id.back);
 
+        //左括号、右括号
+        left_bracket=(Button)findViewById(R.id.left_bracket);
+        right_bracket=(Button)findViewById(R.id.right_bracket);
+
+        help=(Button)findViewById(R.id.help);
+
+        help.setOnClickListener(this);
+
         //结果
 //        result=(TextView) findViewById(R.id.result);
 
@@ -114,6 +152,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         back.setOnClickListener(this);
 
         dot.setOnClickListener(this);
+
+        left_bracket.setOnClickListener(this);
+        right_bracket.setOnClickListener(this);
+
+        //Inflate the menu
+        help.setOnCreateContextMenuListener((contextMenu, view, contextMenuInfo) -> {
+            getMenuInflater().inflate(R.menu.button_menu,contextMenu);
+        });
     }
 
     public boolean onTouchEvent(MotionEvent event){
@@ -125,14 +171,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return input.equals("");
     }
 
+    //判断right_bracket前一位是否为left_bracket
+    public boolean forwardRightBracket(String input){
+        if(!input.equals("")){
+            char lastIndex=input.charAt(input.length()-1);
+            if(lastIndex=='('){
+                return true;
+            }else{
+                return false;
+            }
+        }else {
+            return true;
+        }
+    }
+
     //判断EditText中内容的最后一位是否数字
     public boolean isNumber(String input){
-        char lastIndex=input.charAt(input.length()-1);
-        if(lastIndex>='0'&&lastIndex<='9'){
-            return true;
+        if (!input.equals("")) {
+            char lastIndex=input.charAt(input.length()-1);
+            if(lastIndex>='0'&&lastIndex<='9'){
+                return true;
+            }else{
+                return false;
+            }
         }else{
             return false;
         }
+
     }
 
     //判断是否包含小数点
@@ -155,6 +220,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return false;
     }
 
+    //判断最后一位是否是小数点
+    public boolean isLastDot(String input){
+        if(!input.equals("")) {
+            char lastIndex = input.charAt(input.length() - 1);
+
+            if (lastIndex == '.') return true;
+            else return false;
+        }else{
+            return false;
+        }
+    }
+
     //判断EditText最后一位是否是运算符
     public boolean isOperator(String input){
         char lastIndex=input.charAt(input.length()-1);
@@ -167,9 +244,54 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    //判断最后一位是否是right_bracket
+    public boolean isRightBracket(String input){
+        char lastIndex=input.charAt(input.length()-1);
+
+        if(lastIndex==')') return true;
+        else return false;
+    }
+
+    //统计left_bracket的数量
+    public void countOnLeftBracket(String input){
+        char[] array=input.toCharArray();
+
+        for (int i = 0; i < array.length; i++) {
+            if(array[i]=='('){
+                countOnLeftBracket++;
+            }
+        }
+    }
+
+
     //后退一格
     public String back(String input){
         return input.substring(0,input.length()-1);
+    }
+
+    //left_bracket和right_bracket是否匹配
+    public boolean match(String input){
+        if(!input.equals("")){
+            char[] array=input.toCharArray();
+            int left_bracket_num=0;
+            int right_bracket_num=0;
+
+            for (int i = 0; i < array.length; i++) {
+                if(array[i]=='('){
+                    left_bracket_num++;
+                }else if (array[i]==')'){
+                    right_bracket_num++;
+                }
+            }
+
+            if(left_bracket_num==right_bracket_num){
+                return true;
+            }else {
+                return false;
+            }
+        }else{
+            return true;
+        }
     }
 
     @Override
@@ -181,6 +303,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             isCalculated=false;
         }
         switch(view.getId()){
+            case R.id.help:
+                help.showContextMenu();
+                break;
             case R.id.zero:
             case R.id.one:
             case R.id.two:
@@ -195,9 +320,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.dot:
-                if(!isEditTextEmpty(input)&&(isOperator(input))){
-                    input=back(input);
-                }
                 if(!isEditTextEmpty(input)&&isNumber(input)&&!isDot(input)){
                     editText.setText(input+((Button)view).getText());
                 }
@@ -207,15 +329,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.sub:
             case R.id.mul:
             case R.id.div:
-                if(!isEditTextEmpty(input)&&(isDot(input)||isOperator(input))){
+                if(!isEditTextEmpty(input)&&(isOperator(input))){
                     input=back(input);
                 }
-                if(!isEditTextEmpty(input)&&isNumber(input)){
+                if(!isEditTextEmpty(input)&&(isNumber(input)||isRightBracket(input))){
                     editText.setText(input+((Button)view).getText());
                 }
                 break;
             case R.id.equal:
-                if(!isEditTextEmpty(input)&&isNumber(input)){
+                if(!isEditTextEmpty(input)&&(isNumber(input)||isRightBracket(input))&&match(input)){
                     input=input+"=";
                     double result=new Evaluate().calculate(input);
                     editText.setText(String.valueOf(result));
@@ -224,11 +346,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.back:
                 if(!isEditTextEmpty(input)){
+                    if(isRightBracket(input)){
+                        countOnLeftBracket=countOnLeftBracket+1;
+                        isExistLeftBracket=true;
+                    }
                     editText.setText(this.back(input));
                 }
                 break;
             case R.id.clear:
                 editText.setText("");
+                break;
+
+            case R.id.left_bracket:
+                if(!isLastDot(input)&&!isNumber(input)){
+                    editText.setText(input+((Button)view).getText());
+                    isExistLeftBracket=true;
+                }
+                if(isEditTextEmpty(input)){
+                    editText.setText(input+((Button)view).getText());
+                    isExistLeftBracket=true;
+                }
+                break;
+
+            case R.id.right_bracket:
+                if(!isLastDot(input)&&isExistLeftBracket&&!isEditTextEmpty(input)&&!forwardRightBracket(input)&&(!isOperator(input))){
+                    countOnLeftBracket(input);
+                    editText.setText(input+((Button)view).getText());
+                    countOnLeftBracket=countOnLeftBracket-1;
+                    if(countOnLeftBracket==0){
+                        isExistLeftBracket=false;
+                    }
+                }
                 break;
         }
     }
@@ -237,11 +385,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public boolean onFling(MotionEvent e1,MotionEvent e2,float v1,float v2){
             if(e1.getX()-e2.getX()>0){
                 startActivity(new Intent(MainActivity.this,ScientificCalculateActivity.class));
-                Toast.makeText(MainActivity.this,"通过手势启动ScientificCalculateActivity",Toast.LENGTH_LONG).show();
                 return true;
             }else{
                 return false;
             }
         }
     }
+
+    public boolean onContextItemSelected(MenuItem item){
+
+        switch(item.getItemId()){
+            case R.id.help_item:
+                Toast.makeText(MainActivity.this, "这是帮助文档", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.exit_item:
+                break;
+        }
+        return true;
+    }
+
 }

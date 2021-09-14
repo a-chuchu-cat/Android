@@ -4,7 +4,16 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/AndroidStudio/Calculator/app/src/main/res/layout/activity_main.xml" value="0.2957427536231884" />
+        <entry key="..\:/AndroidStudio/Calculator/app/src/main/res/layout/activity_scale.xml" value="0.33" />
         <entry key="..\:/AndroidStudio/Calculator/app/src/main/res/layout/activity_scientific_calculate.xml" value="0.36614583333333334" />
+        <entry key="..\:/AndroidStudio/Calculator/app/src/main/res/layout/fragment_landscape.xml" value="0.2046875" />
+        <entry key="..\:/AndroidStudio/Calculator/app/src/main/res/layout/fragment_landscape_list.xml" value="0.19010416666666666" />
+        <entry key="..\:/AndroidStudio/Calculator/app/src/main/res/layout/landscape_layout.xml" value="0.2046875" />
+        <entry key="..\:/AndroidStudio/Calculator/app/src/main/res/layout/left_fragment.xml" value="0.19010416666666666" />
+        <entry key="..\:/AndroidStudio/Calculator/app/src/main/res/layout/left_fragment_main_activity.xml" value="0.21197916666666666" />
+        <entry key="..\:/AndroidStudio/Calculator/app/src/main/res/layout/right_fragment.xml" value="0.2046875" />
+        <entry key="..\:/AndroidStudio/Calculator/app/src/main/res/layout/right_fragment_main_activity.xml" value="0.21197916666666666" />
+        <entry key="..\:/AndroidStudio/Calculator/app/src/main/res/menu/button_menu.xml" value="0.18645833333333334" />
       </map>
     </option>
   </component>

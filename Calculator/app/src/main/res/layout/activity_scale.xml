@@ -52,8 +52,9 @@
             android:layout_height="wrap_content"
             android:background="@color/teal_700"
             android:layout_margin="5dp"
-            android:id="@+id/add"
-            android:text="+" />
+            android:id="@+id/centimeter"
+            android:textAllCaps="false"
+            android:text="cm" />
 
         <Button
             android:layout_width="wrap_content"
@@ -81,8 +82,9 @@
             android:layout_height="wrap_content"
             android:background="@color/teal_700"
             android:layout_margin="5dp"
-            android:id="@+id/sub"
-            android:text="-" />
+            android:id="@+id/decimeter"
+            android:textAllCaps="false"
+            android:text="dm" />
 
 
         <Button
@@ -111,8 +113,9 @@
             android:layout_height="wrap_content"
             android:background="@color/teal_700"
             android:layout_margin="5dp"
-            android:id="@+id/mul"
-            android:text="*" />
+            android:id="@+id/meter"
+            android:textAllCaps="false"
+            android:text="m" />
 
 
         <Button
@@ -141,18 +144,27 @@
             android:layout_height="wrap_content"
             android:background="@color/teal_700"
             android:layout_margin="5dp"
-            android:id="@+id/div"
-            android:text="/" />
+            android:id="@+id/binary"
+            android:textAllCaps="false"
+            android:text="binary" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/teal_700"
             android:layout_margin="5dp"
-            android:layout_columnSpan="2"
-            android:id="@+id/equal"
-            android:layout_gravity="fill_horizontal"
-            android:text="=" />
+            android:id="@+id/decimal"
+            android:textAllCaps="false"
+            android:text="decimal" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/teal_700"
+            android:layout_margin="5dp"
+            android:id="@+id/hex"
+            android:textAllCaps="false"
+            android:text="hex" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -166,6 +178,7 @@
             android:background="@color/teal_700"
             android:layout_margin="5dp"
             android:id="@+id/dot"
+            android:textAllCaps="false"
             android:text="." />
 
         <Button
@@ -175,8 +188,6 @@
             android:layout_margin="5dp"
             android:id="@+id/help"
             android:textAllCaps="false"
-            android:layout_gravity="fill_horizontal"
-            android:layout_columnSpan="2"
             android:text="help" />
 
         <Button
@@ -184,16 +195,27 @@
             android:layout_height="wrap_content"
             android:background="@color/teal_700"
             android:layout_margin="5dp"
-            android:id="@+id/left_bracket"
-            android:text="(" />
+            android:id="@+id/cubic_meter"
+            android:textAllCaps="false"
+            android:text="m^3" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/teal_700"
             android:layout_margin="5dp"
-            android:id="@+id/right_bracket"
-            android:text=")" />
+            android:id="@+id/cubic_decimeter"
+            android:textAllCaps="false"
+            android:text="dm^3" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/teal_700"
+            android:layout_margin="5dp"
+            android:id="@+id/cubic_centimeter"
+            android:textAllCaps="false"
+            android:text="cm^3" />
 
     </GridLayout>
 </GridLayout>

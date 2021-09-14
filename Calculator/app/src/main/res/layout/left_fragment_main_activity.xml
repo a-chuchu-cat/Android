@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -6,19 +5,6 @@
     tools:context=".MainActivity"
     android:orientation="vertical"
     android:background="#6b238e">
-
-    <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="top|right">
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:id="@+id/editText"
-            android:hint="请输入数字"
-            android:textSize="20dp"
-            android:gravity="right" />
-    </GridLayout>
 
     <GridLayout
         android:layout_width="wrap_content"
@@ -113,87 +99,18 @@
             android:layout_margin="5dp"
             android:id="@+id/mul"
             android:text="*" />
+    </GridLayout>
 
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/teal_700"
-            android:layout_margin="5dp"
-            android:id="@+id/seven"
-            android:text="7" />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/teal_700"
-            android:layout_margin="5dp"
-            android:id="@+id/eight"
-            android:text="8" />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/teal_700"
-            android:layout_margin="5dp"
-            android:id="@+id/nine"
-            android:text="9" />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/teal_700"
-            android:layout_margin="5dp"
-            android:id="@+id/div"
-            android:text="/" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/teal_700"
-            android:layout_margin="5dp"
-            android:layout_columnSpan="2"
-            android:id="@+id/equal"
-            android:layout_gravity="fill_horizontal"
-            android:text="=" />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/teal_700"
-            android:layout_margin="5dp"
-            android:id="@+id/zero"
-            android:text="0" />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/teal_700"
-            android:layout_margin="5dp"
-            android:id="@+id/dot"
-            android:text="." />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/teal_700"
-            android:layout_margin="5dp"
-            android:id="@+id/help"
-            android:textAllCaps="false"
-            android:layout_gravity="fill_horizontal"
-            android:layout_columnSpan="2"
-            android:text="help" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/teal_700"
-            android:layout_margin="5dp"
-            android:id="@+id/left_bracket"
-            android:text="(" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/teal_700"
-            android:layout_margin="5dp"
-            android:id="@+id/right_bracket"
-            android:text=")" />
-
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top|right">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:id="@+id/editText"
+            android:hint="请输入数字"
+            android:textSize="20dp"
+            android:gravity="right" />
     </GridLayout>
 </GridLayout>

@@ -72,6 +72,7 @@ public class ScientificCalculateActivity extends AppCompatActivity implements Vi
 
         //输入框
         editText = (EditText) findViewById(R.id.editText_button);
+        editText.setEnabled(false);
 
         listenerDemo = new MyGestureListenerDemo();
         detector = new GestureDetector(this, listenerDemo);
@@ -343,11 +344,10 @@ public class ScientificCalculateActivity extends AppCompatActivity implements Vi
             if (e2.getX() - e1.getX() > 0) {
                 startActivity(new Intent(ScientificCalculateActivity.this, MainActivity.class));
                 overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
-                Toast.makeText(ScientificCalculateActivity.this, "通过手势启动MainActivity", Toast.LENGTH_SHORT).show();
-                return true;
             } else {
-                return false;
+                startActivity(new Intent(ScientificCalculateActivity.this,ScaleActivity.class));
             }
+            return true;
         }
     }
 

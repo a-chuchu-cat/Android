@@ -10,10 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
         <activity
+            android:name=".ScaleActivity"
+            android:exported="true" />
+        <activity
             android:name=".ScientificCalculateActivity"
             android:exported="true" />
         <activity
             android:name=".MainActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
