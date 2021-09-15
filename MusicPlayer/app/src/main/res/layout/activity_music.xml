@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--background会根据ImageView组件给定的长宽进行拉伸，而src就存放的是原图的大小，不会进行拉伸。
+src是图片内容(前景)，bg是背景，可以同时使用。-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/backgroud_picture"
+    tools:context=".MusicActivity"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/imageview_music"
+        android:layout_width="240dp"
+        android:layout_height="240dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="15dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/music1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/song_name"
+        android:text="歌曲名"
+        android:textSize="20sp" />
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/seek_bar" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/song_progress"
+            android:text="00:00" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/song_total"
+            android:layout_alignParentRight="true"
+            android:text="00:00" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:id="@+id/play_button"
+            android:background="@drawable/play_background"
+            android:text="播放音乐" />
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:id="@+id/pause_button"
+            android:background="@drawable/pause_background"
+            android:text="暂停播放" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:id="@+id/continue_button"
+            android:background="@drawable/continue_background"
+            android:text="继续播放" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/exit_background"
+            android:id="@+id/exit_button"
+            android:text="退出播放" />
+
+    </LinearLayout>
+</LinearLayout>
