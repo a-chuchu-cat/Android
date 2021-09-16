@@ -10,13 +10,20 @@ import android.os.IBinder;
 import android.os.Message;
 import android.util.Log;
 
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * 音乐播放后台
+ */
 public class MusicService extends Service {
     private MediaPlayer player;
     private Timer timer;
     private static final String TAG="tag";
+
+    //当前歌曲位置
+    private static int index=0;
 
     public MusicService() {
     }
@@ -86,6 +93,7 @@ public class MusicService extends Service {
         public void play(int i){
             //String path
             Uri uri=Uri.parse("android.resource://"+getPackageName()+"/raw/music"+(i+1));
+            index=i;
 
             try{
                 player.reset();//音乐播放器处于idle状态
@@ -119,5 +127,27 @@ public class MusicService extends Service {
         public void seekTo(int position){
             player.seekTo(position);//设置音乐的播放位置
         }
+
+        public void setLooping(){
+            boolean isLooping=player.isLooping();
+            player.setLooping(!isLooping);
+        }
+
+        public MediaPlayer getPlayer(){
+            return player;
+        }
+
+        public int getRandom(int i){
+            Random random=new Random();
+            int number=random.nextInt(FragSongList.name.length);
+            while(number==i){
+                number=random.nextInt(FragSongList.name.length);
+                break;
+            }
+
+            return number;
+        }
+
+
     }
 }

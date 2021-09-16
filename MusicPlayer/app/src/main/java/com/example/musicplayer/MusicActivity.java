@@ -10,6 +10,7 @@ import android.app.Service;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,10 +19,15 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+/**
+ * 音乐播放界面
+ */
 public class MusicActivity extends AppCompatActivity implements View.OnClickListener{
     private static SeekBar seekBar;
     private static TextView songName,songProgress,songTotal;
@@ -34,7 +40,25 @@ public class MusicActivity extends AppCompatActivity implements View.OnClickList
     MyServiceConnection serviceConnection;
     private boolean isUnbind=false;//记录服务是否被解绑
 
+    public int change=0;//记录下标的变化值
 
+    private Button previousSong;
+    private Button nextSong;
+
+    private Button loopSong;
+    private Button sequence;
+
+    public static int duration;
+    public static int currentPosition;
+
+    //顺序播放
+    public boolean isSequence=true;
+
+    public static int i=0;
+
+    public static int count=0;
+
+    private Button random;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +78,13 @@ public class MusicActivity extends AppCompatActivity implements View.OnClickList
         findViewById(R.id.pause_button).setOnClickListener(this);
         findViewById(R.id.continue_button).setOnClickListener(this);
         findViewById(R.id.exit_button).setOnClickListener(this);
+
+        nextSong=findViewById(R.id.next_song);
+        previousSong=findViewById(R.id.previous_song);
+
+        loopSong=findViewById(R.id.loop_song);
+        sequence=(Button)findViewById(R.id.sequence);
+        random=(Button)findViewById(R.id.random);
 
         String name=intentReceive.getStringExtra("name");
         songName.setText(name);
@@ -102,8 +133,93 @@ public class MusicActivity extends AppCompatActivity implements View.OnClickList
 
         ImageView imageViewMusic=(ImageView)findViewById(R.id.imageview_music);
         String position=intentReceive.getStringExtra("position");
-        int i=Integer.parseInt(position);
+        i=Integer.parseInt(position);
         imageViewMusic.setImageResource(FragSongList.icons[i]);
+
+        previousSong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //上一首播放
+                if((i+change)<1){
+                    Toast.makeText(MusicActivity.this, "已经是第一首", Toast.LENGTH_SHORT).show();
+                }else{
+                    change--;
+                    songName.setText(FragSongList.name[i+change]);
+                    imageViewMusic.setImageResource(FragSongList.icons[i+change]);
+                    controller.play(i+change);
+                    animator.start();
+                }
+                return;
+            }
+        });
+
+        nextSong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if((i+change)==(FragSongList.name.length-1)){
+                    Toast.makeText(MusicActivity.this, "已经是最后一首", Toast.LENGTH_SHORT).show();
+                }else{
+                    change++;
+                    songName.setText(FragSongList.name[i+change]);
+                    imageViewMusic.setImageResource(FragSongList.icons[i+change]);
+                    controller.play(i+change);
+                    animator.start();
+                }
+
+                return ;
+            }
+        });
+
+        loopSong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                controller.setLooping();
+            }
+        });
+
+        sequence.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                controller.getPlayer().setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+                    @Override
+                    public void onCompletion(MediaPlayer mediaPlayer) {
+                        Log.i("tag","播放完毕");
+                        int total=FragSongList.name.length;
+                        if(i<total-1){
+                            i++;
+                        }else{
+                            i=0;
+                        }
+                        Log.i("tag",""+i);
+                        controller.play(i);
+                        songName.setText(FragSongList.name[i]);
+                        imageViewMusic.setImageResource(FragSongList.icons[i]);
+                        animator.start();
+                    }
+                });
+            }
+        });
+
+        random.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                controller.getPlayer().setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mediaPlayer) {
+                        Log.i("tag","播放完毕");
+                        int number=controller.getRandom(i);
+                        i=number;
+                        Log.i("tag",""+i);
+                        controller.play(i);
+                        songName.setText(FragSongList.name[i]);
+                        imageViewMusic.setImageResource(FragSongList.icons[i]);
+                        animator.start();
+                    }
+                });
+            }
+        });
 
         animator= ObjectAnimator.ofFloat(imageViewMusic,"rotation",0f,360.0f);
         animator.setDuration(10000);//动画旋转一周的时间为10s
@@ -121,8 +237,8 @@ public class MusicActivity extends AppCompatActivity implements View.OnClickList
         public void handleMessage(@NonNull Message msg) {
             //获取从子线程发过来的音乐播放进度
             Bundle bundle=msg.getData();
-            int duration=bundle.getInt("duration");
-            int currentPosition=bundle.getInt("currentPosition");
+            duration=bundle.getInt("duration");
+            currentPosition=bundle.getInt("currentPosition");
             seekBar.setMax(duration);
             seekBar.setProgress(currentPosition);
 

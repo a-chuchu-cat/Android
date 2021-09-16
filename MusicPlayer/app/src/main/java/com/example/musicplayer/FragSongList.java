@@ -13,18 +13,24 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 显示歌曲列表
  */
 public class FragSongList extends Fragment {
     private View view;
-    public String[] name={"LoveStory","月夜","有点甜"};
+    public static String[] name={"LoveStory","月夜","有点甜"};
     public static int[] icons={R.drawable.music1,R.drawable.music2,R.drawable.music3};
+
+//    public List<String> name=new ArrayList();
 
     public View onCreateView(LayoutInflater inflater, ViewGroup group, Bundle savedInstanceState){
         view=inflater.inflate(R.layout.music_list,group,false);
         MyBaseAdapter baseAdapter=new MyBaseAdapter();
         ListView songList=(ListView) view.findViewById(R.id.song_list);
+
 
         songList.setAdapter(baseAdapter);
         songList.setOnItemClickListener(new AdapterView.OnItemClickListener() {

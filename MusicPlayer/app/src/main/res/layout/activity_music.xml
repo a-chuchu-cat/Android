@@ -37,10 +37,12 @@ src是图片内容(前景)，bg是背景，可以同时使用。-->
         android:layout_height="wrap_content"
         android:paddingLeft="8dp"
         android:paddingRight="8dp">
+
         <TextView
+            android:id="@+id/song_progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/song_progress"
+            android:textColor="#d9d919"
             android:text="00:00" />
 
         <TextView
@@ -48,6 +50,7 @@ src是图片内容(前景)，bg是背景，可以同时使用。-->
             android:layout_height="wrap_content"
             android:id="@+id/song_total"
             android:layout_alignParentRight="true"
+            android:textColor="#d9d919"
             android:text="00:00" />
     </RelativeLayout>
 
@@ -91,4 +94,68 @@ src是图片内容(前景)，bg是背景，可以同时使用。-->
             android:text="退出播放" />
 
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:id="@+id/previous_song"
+            android:background="@drawable/previous"
+            android:textColor="#ffffff"
+            android:text="上一首" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:id="@+id/next_song"
+            android:textColor="#ffffff"
+            android:background="@drawable/next"
+            android:text="下一首" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:id="@+id/loop_song"
+            android:background="@drawable/loop"
+            android:textColor="#ffffff"
+            android:text="循环播放" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:id="@+id/sequence"
+            android:text="顺序播放"
+            android:textColor="#ffffff"
+            android:background="@drawable/sequence" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:id="@+id/random"
+            android:text="随机播放"
+            android:textColor="#ffffff"
+            android:background="@drawable/random" />
+
+    </LinearLayout>
+
 </LinearLayout>

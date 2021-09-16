@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -14,6 +15,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FrameLayout content;
     private TextView menu_song;
     private TextView menu_album;
+    private Button addSong;
+    private Button deleteSong;
 
     private FragmentManager manager;
     private FragmentTransaction transaction;
@@ -26,6 +29,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         content=(FrameLayout) findViewById(R.id.content_frame);
         menu_song=(TextView) findViewById(R.id.menu_song);
         menu_album=(TextView) findViewById(R.id.menu_album);
+
+        addSong=(Button)findViewById(R.id.add_song);
+        deleteSong=(Button)findViewById(R.id.delete_song);
 
         menu_song.setOnClickListener(this);
         menu_album.setOnClickListener(this);
