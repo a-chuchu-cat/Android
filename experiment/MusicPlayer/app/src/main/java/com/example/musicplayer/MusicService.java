@@ -91,8 +91,6 @@ public class MusicService extends Service {
         public MusicController(){}
 
         public void play(int i){
-            //String path
-//            Uri uri=Uri.parse("android.resource://"+getPackageName()+"/raw/music"+(i+1));
             Log.i("tag",getPackageName());
             Uri uri=Uri.parse(FragSongList.uri.get(i));
             index=i;

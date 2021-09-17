@@ -71,7 +71,6 @@ public class FragSongList extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent=new Intent(FragSongList.this.getContext(),MusicActivity.class);//创建Intent对象
                 //将数据存入Intent对象
-//                intent.putExtra("name",name[i]);
                 intent.putExtra("name",name.get(i));
                 intent.putExtra("position",String.valueOf(i));
                 startActivity(intent);
@@ -89,14 +88,12 @@ public class FragSongList extends Fragment {
         //适配器中数据集的数据个数
         @Override
         public int getCount() {
-//            return name.length;
             return name.size();
         }
 
         //获取数据集中与索引对应的数据项
         @Override
         public Object getItem(int i) {
-//            return name[i];
             return name.get(i);
         }
 
@@ -112,10 +109,6 @@ public class FragSongList extends Fragment {
             View view_item=View.inflate(FragSongList.this.getContext(),R.layout.item_layout,null);
             TextView itemName=(TextView) view_item.findViewById(R.id.item_name);
             ImageView imageView=(ImageView) view_item.findViewById(R.id.iv);
-
-//            itemName.setText(name[i]);
-//            imageView.setImageResource(icons[i]);
-
             itemName.setText(name.get(i));
             imageView.setImageResource(icons.get(i));
             return view_item;

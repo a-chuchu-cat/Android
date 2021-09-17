@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/day"
+        android:text="day:"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/time_count_down" />
+
+
+    <EditText
+        android:layout_width="30dp"
+        android:layout_height="40dp"
+        android:id="@+id/edit_text_day"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@id/time_count_down"
+        app:layout_constraintLeft_toRightOf="@id/day"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/hour"
+        android:text="hour:"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toRightOf="@id/edit_text_day"
+        app:layout_constraintBottom_toTopOf="@id/time_count_down" />
+
+
+    <EditText
+        android:layout_width="30dp"
+        android:layout_height="40dp"
+        android:id="@+id/edit_text_hour"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@id/time_count_down"
+        app:layout_constraintLeft_toRightOf="@id/hour"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/minute"
+        android:text="minute:"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toRightOf="@id/edit_text_hour"
+        app:layout_constraintBottom_toTopOf="@id/time_count_down" />
+
+
+    <EditText
+        android:layout_width="30dp"
+        android:layout_height="40dp"
+        android:id="@+id/edit_text_minute"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@id/time_count_down"
+        app:layout_constraintLeft_toRightOf="@id/minute"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/second"
+        android:text="second:"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toRightOf="@id/edit_text_minute"
+        app:layout_constraintBottom_toTopOf="@id/time_count_down" />
+
+
+    <EditText
+        android:layout_width="30dp"
+        android:layout_height="40dp"
+        android:id="@+id/edit_text_second"
+        app:layout_constraintBottom_toTopOf="@id/time_count_down"
+        android:inputType="number"
+        app:layout_constraintLeft_toRightOf="@id/second"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/time_count_down"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/seek_bar"
+        app:layout_constraintTop_toBottomOf="@id/time_count_down"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/timer_progress"
+        android:text="00:00:00:00"
+        android:textSize="15sp"
+        android:textColor="#d9d919"
+        app:layout_constraintTop_toBottomOf="@id/seek_bar"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/timer_total"
+        android:text="00:00:00:00"
+        android:textSize="15sp"
+        android:textColor="#d9d919"
+        app:layout_constraintTop_toBottomOf="@id/seek_bar"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ensure_button"
+        android:text="提交"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/seek_bar"/>
+
+    <Button
+        android:id="@+id/start_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="36dp"
+        android:text="start"
+        android:textAllCaps="false"
+        android:enabled="false"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
