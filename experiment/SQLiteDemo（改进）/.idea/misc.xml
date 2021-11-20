@@ -3,15 +3,23 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidStudio/SQLiteDemo/app/src/main/res/layout/activity_content_provider.xml" value="0.2046875" />
         <entry key="..\:/AndroidStudio/SQLiteDemo/app/src/main/res/layout/activity_main.xml" value="0.28940217391304346" />
         <entry key="..\:/AndroidStudio/SQLiteDemo/app/src/main/res/layout/activity_search.xml" value="0.36614583333333334" />
         <entry key="..\:/AndroidStudio/SQLiteDemo/app/src/main/res/layout/delete_layout.xml" value="0.19010416666666666" />
         <entry key="..\:/AndroidStudio/SQLiteDemo/app/src/main/res/layout/insert_layout.xml" value="0.3515625" />
+        <entry key="..\:/AndroidStudio/SQLiteDemo/app/src/main/res/layout/landsacpe_layout.xml" value="0.22447916666666667" />
+        <entry key="..\:/AndroidStudio/SQLiteDemo/app/src/main/res/layout/landscape_layout.xml" value="0.3098958333333333" />
+        <entry key="..\:/AndroidStudio/SQLiteDemo/app/src/main/res/layout/left_fragment.xml" value="0.2953125" />
+        <entry key="..\:/AndroidStudio/SQLiteDemo/app/src/main/res/layout/meaning_and_sample_layout.xml" value="0.17447916666666666" />
+        <entry key="..\:/AndroidStudio/SQLiteDemo/app/src/main/res/layout/right_fragment.xml" value="0.2953125" />
         <entry key="..\:/AndroidStudio/SQLiteDemo/app/src/main/res/layout/search_layout.xml" value="0.3515625" />
         <entry key="..\:/AndroidStudio/SQLiteDemo/app/src/main/res/layout/update_layout.xml" value="0.2046875" />
+        <entry key="..\:/AndroidStudio/SQLiteDemo/app/src/main/res/layout/word_and_id_layout.xml" value="0.1890625" />
         <entry key="..\:/AndroidStudio/SQLiteDemo/app/src/main/res/layout/word_layout.xml" value="0.36614583333333334" />
         <entry key="..\:/AndroidStudio/SQLiteDemo/app/src/main/res/menu/context_menu.xml" value="0.33" />
         <entry key="..\:/AndroidStudio/SQLiteDemo/app/src/main/res/menu/option_menu.xml" value="0.36614583333333334" />
+        <entry key="..\:/AndroidStudio/SQLiteDemo/app/src/main/res/menu/search_context_menu.xml" value="0.36614583333333334" />
       </map>
     </option>
   </component>

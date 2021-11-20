@@ -3,17 +3,22 @@ package com.example.sqlitedemo;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
@@ -41,13 +46,39 @@ public class MainActivity extends AppCompatActivity {
     WordDBHelper wordDBHelper;
     ListView wordListview;
 
+    private MyGestureListener listener;
+    private GestureDetector detector;
+
+    private RightFragment rightFragment;
+
+    private FragmentManager manager;
+    private FragmentTransaction transaction;
+
+    public void onConfigurationChanged(Configuration newConfiguration){
+        super.onConfigurationChanged(newConfiguration);
+        if(Configuration.ORIENTATION_LANDSCAPE==newConfiguration.orientation){
+            setContentView(R.layout.landsacpe_layout);
+        }else{
+            setContentView(R.layout.activity_main);
+        }
+        init();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        init();
+
+    }
+
+    public void init(){
         wordListview = (ListView) findViewById(R.id.word_listview);
         wordDBHelper=new WordDBHelper(this);
+
+        listener=new MyGestureListener();
+        detector=new GestureDetector(this,listener);
 
         ArrayList<Map<String,String>> word_list=getAll();
 
@@ -55,7 +86,16 @@ public class MainActivity extends AppCompatActivity {
 
         registerForContextMenu(wordListview);
 
+        rightFragment=new RightFragment();
 
+        manager=getFragmentManager();
+        transaction=manager.beginTransaction();
+
+        transaction.replace(R.id.right_fragment,rightFragment).commit();
+    }
+
+    public boolean onTouchEvent(MotionEvent event){
+        return detector.onTouchEvent(event);
     }
 
     //从数据库中读入内容
@@ -85,8 +125,8 @@ public class MainActivity extends AppCompatActivity {
     //增加适配器，在列表中显示单词
     public void setAdapter(ListView wordListview, ArrayList<Map<String, String>> item) {
         SimpleAdapter simple = new SimpleAdapter(MainActivity.this, item, R.layout.word_layout,
-                new String[]{Words.Word._ID, Words.Word.TABLE_COLUMN_WORD, Words.Word.TABLE_COLUMN_MEANING, Words.Word.TABLE_COLUMN_SAMPLE},
-        new int[]{R.id.word_id, R.id.word, R.id.meaning, R.id.sample});
+                new String[]{Words.Word._ID, Words.Word.TABLE_COLUMN_WORD, Words.Word.TABLE_COLUMN_MEANING},
+        new int[]{R.id.word_id, R.id.word, R.id.meaning});
 
         wordListview.setAdapter(simple);
     }
@@ -122,6 +162,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.insert_word:
                 insertDialog();
+                break;
+            case R.id.help:
+                Toast.makeText(MainActivity.this, "这是帮助文档", Toast.LENGTH_SHORT).show();
                 break;
         }
 
@@ -192,7 +235,6 @@ public class MainActivity extends AppCompatActivity {
         TextView id;
         TextView word;
         TextView meaning;
-        TextView sample;
         View itemView;
 
         switch(item.getItemId()){
@@ -213,18 +255,33 @@ public class MainActivity extends AppCompatActivity {
                 id=(TextView) itemView.findViewById(R.id.word_id);
                 word=(TextView) itemView.findViewById(R.id.word);
                 meaning=(TextView) itemView.findViewById(R.id.meaning);
-                sample=(TextView) itemView.findViewById(R.id.sample);
 
                 if(id!=null&&word!=null&&meaning!=null){
                     String word_id=id.getText().toString();
                     String word_word=word.getText().toString();
                     String word_meaning=meaning.getText().toString();
-                    String word_sample=sample.getText().toString();
+                    String word_sample=searchSample(word_word);
 
                     Toast.makeText(MainActivity.this,
                             "id:"+word_id+"word:"+word_word+"meaning:"+word_meaning+"sample:"+word_sample, Toast.LENGTH_SHORT).show();
 
                     updateDialog(word_id,word_word,word_meaning,word_sample);
+                }
+                break;
+
+            case R.id.sample:
+                info=(AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+                itemView=info.targetView;
+                word=(TextView) itemView.findViewById(R.id.word);
+                if(word!=null){
+                    String word_word=word.getText().toString();
+                    String word_sample=searchSample(word_word);
+                    rightFragment.getTextView(new RightFragment.Callback() {
+                        @Override
+                        public void getSample(TextView textView) {
+                            textView.setText(word_sample);
+                        }
+                    });
                 }
                 break;
         }
@@ -275,6 +332,7 @@ public class MainActivity extends AppCompatActivity {
         values.put(Words.Word.TABLE_COLUMN_MEANING,meaning);
         values.put(Words.Word.TABLE_COLUMN_SAMPLE,sample);
 
+
         String selection=Words.Word._ID+"=?";
 
         String[] selectionArgs={word_id};
@@ -289,7 +347,7 @@ public class MainActivity extends AppCompatActivity {
         final TableLayout updateLayout=(TableLayout)getLayoutInflater().inflate(R.layout.update_layout,null);
         EditText wordEditText=(EditText)updateLayout.findViewById(R.id.update_word_edit_text);
         EditText meaningEditText=(EditText)updateLayout.findViewById(R.id.update_meaning_edit_text);
-        EditText sampleEditText=(EditText)updateLayout.findViewById(R.id.update_sample_edit_text);
+        EditText sampleEditText = (EditText)updateLayout.findViewById(R.id.update_sample_edit_text);
 
         wordEditText.setText(word);
         meaningEditText.setText(meaning);
@@ -339,6 +397,31 @@ public class MainActivity extends AppCompatActivity {
         Cursor cursor = database.query(Words.Word.TABLE_NAME, projection, selection, selectionArgs, null, null, order);
 
         return convertToList(cursor);
+    }
+
+    //查找Word对应的sample
+    public String searchSample(String word){
+        SQLiteDatabase database=wordDBHelper.getReadableDatabase();
+
+        String[] projection={
+                Words.Word.TABLE_COLUMN_SAMPLE
+        };
+
+        String selection=Words.Word.TABLE_COLUMN_WORD+"=?";
+        String[] selectionArgs={word};
+
+        String sample="";
+
+        Cursor cursor=database.query(Words.Word.TABLE_NAME,projection,selection,selectionArgs,null,null,null);
+
+        if(cursor!=null){
+            while(cursor.moveToNext()){
+                sample=cursor.getString(0);
+            }
+        }
+
+        return sample;
+
     }
 
     //cursor to ArrayList
@@ -394,5 +477,15 @@ public class MainActivity extends AppCompatActivity {
                         setAdapter(wordListview,items);
                     }
                 }).create().show();
+    }
+
+    class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
+        public boolean onFling(MotionEvent e1,MotionEvent e2,float v1,float v2){
+            if((e1.getX()-e2.getX())>0){
+                Intent intent=new Intent(MainActivity.this,ContentProviderActivity.class);
+                startActivity(intent);
+            }
+            return true;
+        }
     }
 }

@@ -13,4 +13,12 @@
         android:orderInCategory="100"
         android:title="新增"
         app:showAsAction="never" />
-</menu>
+
+    <item
+        android:id="@+id/help"
+        android:orderInCategory="100"
+        android:title="帮助文档"
+        app:showAsAction="never"/>
+
+
+    </menu>

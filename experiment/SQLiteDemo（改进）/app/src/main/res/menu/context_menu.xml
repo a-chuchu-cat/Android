@@ -13,4 +13,9 @@
         android:title="修改"
         app:showAsAction="never" />
 
+    <item android:id="@+id/sample"
+        android:orderInCategory="100"
+        android:title="释义"
+        app:showAsAction="never" />
+
 </menu>
